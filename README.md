@@ -1,3 +1,14 @@
+There are two elasticsearch instances which are put behind an elastic load balancer. Health check is using port: 9200 
+
+
+
+Security group: 
+    elasticsearch port: 9200
+    kibana port       : 5601
+
+Detailed steps are from https://www.youtube.com/watch?v=ge8uHdmtb1M
+
+
 Amazon Linux AMI 2015.09
 
 Elasticsearch 1.7.2
@@ -54,6 +65,10 @@ Commands
 service elasticsearch start 
 
 
+On browser: http://[elasticLoadBalancer]:9200
+On browser: http://[elasticsearchServerIP]:9200
+
+
 Logstash 1.5.4-1
 ==============
 
@@ -82,7 +97,15 @@ Commands
 service logstash start
 
 
-Kibana 4.1.2
+Install two plugins on logstash server automatically 
+These plugins are head and bigdesk plugins. Bigdesk is like technical standpoint and we can see CPU, memory how things are going, making sure the clusters healthy, charted data across of the nodes.
+
+On browser: http://[elasticLoadBalancer]:9200/_plugin/head/
+            http://[elasticLoadBalancer]:9200/_plugin/bigdesk/  
+                  -> nodes -> 
+
+
+Kibana 4.1.2  -- installation steps
 ============
 
 Commands
@@ -114,3 +137,8 @@ nohup ./bin/kibana &
 Navigate In Browser
 -------------------
 http://KIBANA_URL:5601/
+
+Configure an index pattern: logstach-*
+                         Timestamp ->create
+             -> discovery -> see data
+
